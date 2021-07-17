@@ -6,20 +6,18 @@ def getPixelEquivalentChar(pixel, chars):
 
   return chars[char_index - 1]
 
-chars = ' .,:;%#@'[::-1]
+def get_img(image_path, max_width = 50):
+  source_img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
-max_default_size = 40
+  width, height = source_img.shape
 
-input_filename = argv[1]
-output_filename = argv[2]
+  if width > max_width:
+    source_img = cv2.resize(source_img, (max_width, max_width))
+    
+    width, height = source_img.shape
+    
+  return source_img
 
-source_img = cv2.imread(input_filename, cv2.IMREAD_GRAYSCALE)
-
-width, height = source_img.shape
-
-if width > max_default_size:
-  source_img = cv2.resize(source_img, (max_default_size, max_default_size))
-  
   width, height = source_img.shape
 
 with open(output_filename, 'w') as output_file:
