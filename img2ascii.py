@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+import cv2
 from sys import argv
 import cv2
 
