@@ -8,7 +8,7 @@ if len(argv) != 3:
 
 chars = ' .,:;%#@'[::-1]
 
-output_width = 50
+max_default_size = 40
 
 input_filename = argv[1]
 output_filename = argv[2]
@@ -17,8 +17,8 @@ source_img = cv2.imread(input_filename, cv2.IMREAD_GRAYSCALE)
 
 width, height = source_img.shape
 
-if width > output_width:
-  source_img = cv2.resize(source_img, (output_width, output_width))
+if width > max_default_size:
+  source_img = cv2.resize(source_img, (max_default_size, max_default_size))
   
   width, height = source_img.shape
 
