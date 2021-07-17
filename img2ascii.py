@@ -6,4 +6,7 @@ if len(argv) != 3:
 
   exit(1)
 
-chars = '@#%;:,. '
+input_filename = argv[1]
+output_filename = argv[2]
+
+source_img = cv2.imread(input_filename, cv2.IMREAD_GRAYSCALE)
