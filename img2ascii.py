@@ -22,3 +22,14 @@ if width > max_default_size:
   
   width, height = source_img.shape
 
+with open(output_filename, 'w') as output_file:
+  for col in range(height):
+    line = ''
+    
+    for row in range(width):
+      char_index = round(source_img[col][row] / 255 * len(chars))
+
+      line += chars[char_index - 1] + ' '
+
+      if row == width - 1:
+        output_file.write(line + '\n')
