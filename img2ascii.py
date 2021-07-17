@@ -6,6 +6,10 @@ if len(argv) != 3:
 
   exit(1)
 
+chars = ' .,:;%#@'[::-1]
+
+output_width = 50
+
 input_filename = argv[1]
 output_filename = argv[2]
 
