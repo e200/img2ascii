@@ -1,10 +1,10 @@
 from sys import argv
 import cv2
 
-if len(argv) != 3:
-  print('Usage: python3 img2ascii input.jpg output.txt')
+def getPixelEquivalentChar(pixel, chars):
+  char_index = round(pixel / 255 * len(chars))
 
-  exit(1)
+  return chars[char_index - 1]
 
 chars = ' .,:;%#@'[::-1]
 
