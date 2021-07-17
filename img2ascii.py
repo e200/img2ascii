@@ -2,41 +2,53 @@
 
 import cv2
 from sys import argv
-import cv2
 
 def getPixelEquivalentChar(pixel, chars):
   char_index = round(pixel / 255 * len(chars))
 
-  return chars[char_index - 1]
+  return chars[::-1][char_index - 1]
 
-def get_img(image_path, max_width = 50):
+def get_img(image_path, scale):
   source_img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
   width, height = source_img.shape
 
-  if width > max_width:
-    source_img = cv2.resize(source_img, (max_width, max_width))
-    
-    width, height = source_img.shape
-    
-  return source_img
+  resized_image = cv2.resize(source_img, (round(width * scale), round(height * scale)))
+
+  return resized_image
 
 def img2ascii(source, chars):
   lines = []
-  
+
   width, height = source.shape
-  
+
   for col in range(height):
     line = ''
 
     for row in range(width):
-      pixel = source_img[col][row]
+      pixel = source[row][col]
 
       char = getPixelEquivalentChar(pixel, chars)
 
       line += char + ' '
 
       if row == width - 1:
-        lines.append(line + '\n')
-    
+        lines.append(line)
+
   return lines
+
+if len(argv) != 2:
+  print('Usage: python3 img2ascii input.jpg')
+
+  exit(1)
+
+chars = ' .,:;%#@'
+
+input_filename = argv[1]
+
+source_img = get_img(input_filename, 0.2)
+
+ascii_text_lines = img2ascii(source_img, chars)
+ascii_text = '\n'.join(ascii_text_lines)
+
+print(ascii_text)
