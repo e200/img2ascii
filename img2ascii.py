@@ -18,16 +18,22 @@ def get_img(image_path, max_width = 50):
     
   return source_img
 
-  width, height = source_img.shape
-
-with open(output_filename, 'w') as output_file:
+def img2ascii(source, chars):
+  lines = []
+  
+  width, height = source.shape
+  
   for col in range(height):
     line = ''
-    
-    for row in range(width):
-      char_index = round(source_img[col][row] / 255 * len(chars))
 
-      line += chars[char_index - 1] + ' '
+    for row in range(width):
+      pixel = source_img[col][row]
+
+      char = getPixelEquivalentChar(pixel, chars)
+
+      line += char + ' '
 
       if row == width - 1:
-        output_file.write(line + '\n')
+        lines.append(line + '\n')
+    
+  return lines
