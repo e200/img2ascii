@@ -14,3 +14,11 @@ input_filename = argv[1]
 output_filename = argv[2]
 
 source_img = cv2.imread(input_filename, cv2.IMREAD_GRAYSCALE)
+
+width, height = source_img.shape
+
+if width > output_width:
+  source_img = cv2.resize(source_img, (output_width, output_width))
+  
+  width, height = source_img.shape
+
