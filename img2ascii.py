@@ -2,16 +2,19 @@
 
 import cv2
 from sys import argv
+import argparse
+import cv2
 
-def getPixelEquivalentChar(pixel, chars):
-  char_index = round(pixel / 255 * len(chars))
+parser = argparse.ArgumentParser(
+    description='Map image pixels to ASCII characters')
 
-  return chars[::-1][char_index - 1]
+parser.add_argument('-i', '--input', help='Source image', required=True)
+parser.add_argument('-sc', '--scale', help='Output scale')
+parser.add_argument('-c', '--chars', help='Custom ASCII chars to map')
 
-def get_img(image_path, scale):
-  source_img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+args = vars(parser.parse_args())
 
-  width, height = source_img.shape
+input_filename = args['input']
 
   resized_image = cv2.resize(source_img, (round(width * scale), round(height * scale)))
 
