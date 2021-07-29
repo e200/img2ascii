@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import cv2
 from sys import argv
 import argparse
 import cv2
@@ -16,42 +15,34 @@ args = vars(parser.parse_args())
 
 input_filename = args['input']
 
-  resized_image = cv2.resize(source_img, (round(width * scale), round(height * scale)))
+scale = args['scale']
+chars = (args['chars'] or ' .,:;%#@')[::-1]
 
-  return resized_image
 
-def img2ascii(source, chars):
-  lines = []
+def get_pixel_equivalent_char(pixel, chars):
+  char_index = round(pixel / 255 * len(chars))
 
-  width, height = source.shape
+  return chars[char_index - 1]
 
+
+source_img = cv2.imread(input_filename, cv2.IMREAD_GRAYSCALE)
+
+height, width = source_img.shape
+
+if scale:
+  scale = float(scale)
+
+  source_img = cv2.resize(source_img, (int(width * scale), int(height * scale)))
+
+height, width = source_img.shape
+
+with open('output.txt', 'w') as output_file:
   for col in range(height):
     line = ''
 
     for row in range(width):
-      pixel = source[row][col]
+      char_index = round(source_img[col][row] / 255 * len(chars))
 
-      char = getPixelEquivalentChar(pixel, chars)
-
-      line += char + ' '
-
-      if row == width - 1:
-        lines.append(line)
-
-  return lines
-
-if len(argv) != 2:
-  print('Usage: python3 img2ascii input.jpg')
-
-  exit(1)
-
-chars = ' .,:;%#@'
-
-input_filename = argv[1]
-
-source_img = get_img(input_filename, 0.2)
-
-ascii_text_lines = img2ascii(source_img, chars)
-ascii_text = '\n'.join(ascii_text_lines)
-
-print(ascii_text)
+      line += chars[char_index - 1] + ' '
+  
+    output_file.write(line + "\n")
