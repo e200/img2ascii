@@ -5,6 +5,9 @@ A CLI tool that maps image pixels to ASCII characters.
 Built with Python, once you have Python installed, you're good to run it. :)
 
 ## How to use
+
+See usage video [here](https://youtu.be/lqiHoTr5LDA)
+
 `./img2ascii -i input_image.jpg`
 
 or
